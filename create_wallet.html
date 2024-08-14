@@ -1,0 +1,20 @@
+from web3 import Web3
+from mnemonic import Mnemonic
+
+def create_wallet():
+    # Initialize Web3 and Mnemonic
+    w3 = Web3()
+    mnemo = Mnemonic("english")
+    
+    # Generate a mnemonic phrase (12 words)
+    secret_phrase = mnemo.generate(strength=128)
+    
+    # Derive a private key from the mnemonic phrase
+    seed = mnemo.to_seed(secret_phrase)
+    account = w3.eth.account.from_mnemonic(secret_phrase)
+    
+    return {
+        'address': account.address,
+        'private_key': account.privateKey.hex(),
+        'secret_phrase': secret_phrase
+    }
